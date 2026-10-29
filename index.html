@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>AMU Class-6 Entrance Test Portal (2025)</title>
+  <title>AMU Class-6 Entrance Test Portal</title>
   <!-- Tailwind CSS -->
   <script src="https://cdn.tailwindcss.com"></script>
   <!-- Google Fonts for English, Hindi & Urdu -->
@@ -24,7 +24,7 @@
         </div>
         <div>
           <h1 class="font-bold text-base sm:text-lg leading-tight tracking-tight">AMU Entrance Test Portal</h1>
-          <p class="text-xs text-emerald-200">Class-VI PYQ (2025) • Auto-Shuffled</p>
+          <p class="text-xs text-emerald-200">Class-VI PYQ  • Auto-Shuffled</p>
         </div>
       </div>
 
@@ -151,6 +151,26 @@
     let timeLeft = 7200; // 2 hours
     let timerInterval = null;
     let selectedSubmissionId = null;
+    let submissionsCache = [];
+    let latestSubmission = null;
+    let latestSubmissionIsSynced = false;
+    const ADMIN_TOKEN_KEY = 'amu_class6_admin_token';
+
+    function escapeHtml(value) {
+      return String(value ?? '').replace(/[&<>"']/g, char => ({
+        '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;', "'": '&#39;'
+      })[char]);
+    }
+
+    async function apiRequest(url, options = {}) {
+      const headers = { 'Content-Type': 'application/json', ...options.headers };
+      const token = sessionStorage.getItem(ADMIN_TOKEN_KEY);
+      if (token) headers.Authorization = `Bearer ${token}`;
+      const response = await fetch(url, { ...options, headers });
+      const data = await response.json().catch(() => ({}));
+      if (!response.ok) throw new Error(data.error || `Request failed (${response.status})`);
+      return data;
+    }
 
     function shuffleArray(arr) {
       const copy = [...arr];
@@ -161,7 +181,7 @@
       return copy;
     }
 
-    function getSubmissions() {
+    function getLocalSubmissions() {
       try {
         const raw = localStorage.getItem(STORAGE_KEY);
         return raw ? JSON.parse(raw) : [];
@@ -170,8 +190,8 @@
       }
     }
 
-    function saveSubmission(sub) {
-      const list = getSubmissions();
+    function saveLocalSubmission(sub) {
+      const list = getLocalSubmissions();
       list.unshift(sub);
       localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
     }
@@ -187,6 +207,10 @@
       if (currentView === 'exam' && view !== 'submitted') {
         if (!confirm("Are you sure you want to leave the ongoing exam?")) return;
         clearInterval(timerInterval);
+      }
+      if (currentView === 'admin_dashboard' && view !== 'admin_dashboard') {
+        sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+        submissionsCache = [];
       }
       currentView = view;
       render();
@@ -251,7 +275,7 @@
       renderExamContent();
     }
 
-    function submitExam(auto = false) {
+    async function submitExam(auto = false) {
       if (!auto) {
         const answeredCount = Object.keys(responses).length;
         if (!confirm(`Aapne 85 me se ${answeredCount} sawal hal kiye hain. Kya aap final test submit karna chahte hain?`)) {
@@ -285,32 +309,66 @@
         details
       };
 
-      saveSubmission(record);
+      try {
+        const result = await apiRequest('/api/submissions', {
+          method: 'POST',
+          body: JSON.stringify(record),
+        });
+        latestSubmission = result.submission;
+        latestSubmissionIsSynced = true;
+      } catch (error) {
+        latestSubmission = record;
+        latestSubmissionIsSynced = false;
+        saveLocalSubmission(record);
+        alert(`Response server par save nahi ho saka: ${error.message}. Yeh result filhal isi device par backup hua hai; internet/API theek hone par admin login se sync karein.`);
+      }
       currentView = 'submitted';
       render();
     }
 
-    function checkAdminLogin(e) {
+    async function checkAdminLogin(e) {
       e.preventDefault();
       const pass = document.getElementById('adminPass').value.trim();
-      if (pass === 'Asif@7481') {
+      try {
+        const login = await apiRequest('/api/admin/login', {
+          method: 'POST',
+          body: JSON.stringify({ password: pass }),
+        });
+        sessionStorage.setItem(ADMIN_TOKEN_KEY, login.token);
+
+        const localRecords = getLocalSubmissions();
+        if (localRecords.length) {
+          await apiRequest('/api/admin/migrate', {
+            method: 'POST',
+            body: JSON.stringify({ submissions: localRecords }),
+          });
+          localStorage.removeItem(STORAGE_KEY);
+        }
+
+        const result = await apiRequest('/api/admin/submissions');
+        submissionsCache = result.submissions;
         currentView = 'admin_dashboard';
         render();
-      } else {
-        alert("Galat passcode!");
+      } catch (error) {
+        sessionStorage.removeItem(ADMIN_TOKEN_KEY);
+        alert(error.message.includes('Incorrect') ? 'Galat passcode!' : `Admin results load nahi ho paye: ${error.message}`);
       }
     }
 
-    function deleteSubmission(id) {
+    async function deleteSubmission(id) {
       if (!confirm("Kya aap is student ka record delete karna chahte hain?")) return;
-      const list = getSubmissions().filter(s => s.id !== id);
-      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
-      if (selectedSubmissionId === id) selectedSubmissionId = null;
-      render();
+      try {
+        await apiRequest(`/api/admin/submissions/${encodeURIComponent(id)}`, { method: 'DELETE' });
+        submissionsCache = submissionsCache.filter(s => s.id !== id);
+        if (selectedSubmissionId === id) selectedSubmissionId = null;
+        render();
+      } catch (error) {
+        alert(`Record delete nahi ho saka: ${error.message}`);
+      }
     }
 
     function exportCSV() {
-      const subs = getSubmissions();
+      const subs = submissionsCache;
       if (!subs.length) return alert("Koi record nahi mila!");
       const headers = ["Username", "Roll No", "Score (Out of 85)", "Percentage", "Attempted", "Correct", "Wrong", "Unattempted", "Time Taken", "Submitted At"];
       const rows = subs.map(s => [
@@ -497,16 +555,16 @@
       }
 
       else if (currentView === 'submitted') {
-        const latest = getSubmissions()[0] || {};
+        const latest = latestSubmission || {};
         container.innerHTML = `
           <div class="max-w-lg mx-auto mt-10 bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center">
             <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold">✔</div>
             <h2 class="text-2xl font-bold text-slate-800">Test Submitted Successfully!</h2>
             <p class="text-slate-600 text-sm mt-2">
-              Dhanyawad <span class="font-bold text-slate-900">${studentName}</span>! Aapka response सुरक्षित रूप से Admin ke paas save ho gaya hai.
+              Dhanyawad <span class="font-bold text-slate-900">${escapeHtml(studentName)}</span>! ${latestSubmissionIsSynced ? 'Aapka response shared server par save ho gaya hai.' : 'Response server par sync nahi hua; admin ko abhi yeh result nahi dikhega.'}
             </p>
             <div class="bg-slate-50 rounded-xl p-4 my-6 border border-slate-200 text-left text-sm space-y-2">
-              <div class="flex justify-between"><span class="text-slate-500">Username:</span><span class="font-bold">${studentName}</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Username:</span><span class="font-bold">${escapeHtml(studentName)}</span></div>
               <div class="flex justify-between"><span class="text-slate-500">Questions Attempted:</span><span class="font-bold text-emerald-700">${latest.attempted || 0} / 85</span></div>
               <div class="flex justify-between"><span class="text-slate-500">Result Status:</span><span class="font-semibold text-amber-700">🔒 Restricted to Admin Only</span></div>
             </div>
@@ -540,7 +598,7 @@
       }
 
       else if (currentView === 'admin_dashboard') {
-        const subs = getSubmissions();
+        const subs = submissionsCache;
         const activeSub = subs.find(s => s.id === selectedSubmissionId) || null;
         container.innerHTML = `
           <div class="space-y-6">
@@ -573,12 +631,12 @@
                     ${subs.length === 0 ? `<tr><td colspan="7" class="py-8 text-center text-slate-400">Abhi tak kisi student ne test submit nahi kiya hai.</td></tr>` :
                       subs.map(s => `
                         <tr class="hover:bg-slate-50">
-                          <td class="py-3.5 px-4 font-bold text-slate-900">${s.username}</td>
-                          <td class="py-3.5 px-4 text-slate-600">${s.rollNo}</td>
+                          <td class="py-3.5 px-4 font-bold text-slate-900">${escapeHtml(s.username)}</td>
+                          <td class="py-3.5 px-4 text-slate-600">${escapeHtml(s.rollNo)}</td>
                           <td class="py-3.5 px-4"><span class="bg-emerald-100 text-emerald-900 font-extrabold px-2.5 py-1 rounded-lg">${s.correct} / 85</span></td>
                           <td class="py-3.5 px-4 font-semibold">${s.percentage}%</td>
                           <td class="py-3.5 px-4 text-xs"><span class="text-emerald-700 font-bold">✔ ${s.correct}</span> • <span class="text-rose-600 font-bold">✖ ${s.wrong}</span></td>
-                          <td class="py-3.5 px-4 text-xs text-slate-500">${s.submittedAt}</td>
+                          <td class="py-3.5 px-4 text-xs text-slate-500">${escapeHtml(s.submittedAt)}</td>
                           <td class="py-3.5 px-4 text-right space-x-2">
                             <button onclick="selectedSubmissionId='${s.id}'; render();" class="text-xs font-bold text-emerald-700 underline">View Sheet</button>
                             <button onclick="deleteSubmission('${s.id}')" class="text-xs font-bold text-rose-600 underline">Delete</button>
@@ -595,17 +653,17 @@
               <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
                 <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-200">
                   <div>
-                    <h3 class="font-bold text-lg text-slate-800">${activeSub.username} ki Answer Sheet (Score: ${activeSub.correct}/85)</h3>
-                    <p class="text-xs text-slate-500">Roll No: ${activeSub.rollNo} • Time Taken: ${activeSub.timeTaken}</p>
+                    <h3 class="font-bold text-lg text-slate-800">${escapeHtml(activeSub.username)} ki Answer Sheet (Score: ${activeSub.correct}/85)</h3>
+                    <p class="text-xs text-slate-500">Roll No: ${escapeHtml(activeSub.rollNo)} • Time Taken: ${escapeHtml(activeSub.timeTaken)}</p>
                   </div>
                   <button onclick="selectedSubmissionId=null; render();" class="text-xs font-bold text-slate-500 border px-3 py-1.5 rounded-lg">Close ✖</button>
                 </div>
                 <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-1">
                   ${activeSub.details.map(d => `
                     <div class="p-3 rounded-xl border text-xs ${d.chosen === null ? 'bg-slate-50 border-slate-200' : d.isCorrect ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'}">
-                      <p class="font-bold text-slate-800 mb-1">Q#${d.id} (${d.section}): ${d.q}</p>
-                      <p>Student Answer: <strong>${d.chosen || 'Not Attempted'}</strong></p>
-                      <p class="text-emerald-800">Correct Answer: <strong>${d.correctAns}</strong></p>
+                      <p class="font-bold text-slate-800 mb-1">Q#${d.id} (${escapeHtml(d.section)}): ${escapeHtml(d.q)}</p>
+                      <p>Student Answer: <strong>${escapeHtml(d.chosen || 'Not Attempted')}</strong></p>
+                      <p class="text-emerald-800">Correct Answer: <strong>${escapeHtml(d.correctAns)}</strong></p>
                     </div>
                   `).join('')}
                 </div>
