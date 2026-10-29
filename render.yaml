@@ -1,20 +1,7 @@
 services:
   - type: web
-    name: amu-class-6-results-app
-    runtime: node
-    plan: free
-    buildCommand: npm install
-    startCommand: npm start
-    healthCheckPath: /api/health
-    envVars:
-      - key: DATABASE_URL
-        sync: false
-      - key: ADMIN_PASSWORD
-        sync: false
-      - key: SESSION_SECRET
-        generateValue: true
-      - key: NODE_ENV
-        value: production
-
-# DATABASE_URL and ADMIN_PASSWORD are entered privately in Render.
+    name: amu-class6-supabase
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
 
