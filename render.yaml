@@ -1,0 +1,6 @@
+services:
+  - type: web
+    name: amu-class-6-entrance-test
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .

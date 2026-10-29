@@ -1,0 +1,624 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>AMU Class-6 Entrance Test Portal (2025)</title>
+  <!-- Tailwind CSS -->
+  <script src="https://cdn.tailwindcss.com"></script>
+  <!-- Google Fonts for English, Hindi & Urdu -->
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=Noto+Nastaliq+Urdu:wght@400;700&family=Noto+Sans+Devanagari:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    body { font-family: 'Inter', 'Noto Sans Devanagari', sans-serif; }
+    .urdu-text { font-family: 'Noto Nastaliq Urdu', serif; line-height: 2.2; direction: rtl; text-align: right; }
+  </style>
+</head>
+<body class="bg-slate-50 text-slate-900 min-h-screen flex flex-col">
+
+  <!-- Top Navigation -->
+  <header class="bg-emerald-900 text-white shadow-lg sticky top-0 z-30 border-b border-emerald-800">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
+      <div class="flex items-center space-x-3 cursor-pointer" onclick="switchView('landing')">
+        <div class="w-10 h-10 rounded-xl bg-amber-400 flex items-center justify-center text-emerald-950 font-black text-xl shadow">
+          AMU
+        </div>
+        <div>
+          <h1 class="font-bold text-base sm:text-lg leading-tight tracking-tight">AMU Entrance Test Portal</h1>
+          <p class="text-xs text-emerald-200">Class-VI PYQ (2025) • Auto-Shuffled</p>
+        </div>
+      </div>
+
+      <div class="flex items-center space-x-3" id="nav-actions">
+        <button onclick="switchView('admin_login')" class="flex items-center space-x-1.5 text-xs sm:text-sm bg-emerald-800/90 hover:bg-emerald-700 text-emerald-100 px-3.5 py-2 rounded-lg border border-emerald-700 transition font-medium">
+          <span>🔒 Admin Panel</span>
+        </button>
+      </div>
+    </div>
+  </header>
+
+  <!-- Main Content Area -->
+  <main id="app-container" class="flex-1 max-w-7xl w-full mx-auto px-4 sm:px-6 lg:px-8 py-6">
+    <!-- Dynamic Views Injected via JS -->
+  </main>
+
+  <script>
+    // Complete 85 Questions Database (AMU Class 6 Entrance 2025)
+    const RAW_QUESTIONS = [
+      // ENGLISH (1-9)
+      { id: 1, section: 'English', q: "Which spelling is correct?", options: ["Pomgrant", "Pomegarnt", "Pomegranate", "Pomgrante"], ans: "Pomegranate" },
+      { id: 2, section: 'English', q: "Choose the best option: I have ______ the windows.", options: ["clean", "cleans", "cleaning", "cleaned"], ans: "cleaned" },
+      { id: 3, section: 'English', q: "Fill up the blank with the most appropriate adjective: John has become a ______ person after leaving that gang of bad boys.", options: ["better", "good", "as good as", "best"], ans: "better" },
+      { id: 4, section: 'English', q: "Fill in the blank with the most suitable article: Enjoy your holidays. Have _____ good time!", options: ["the", "an", "a", "best"], ans: "a" },
+      { id: 5, section: 'English', q: "Fill up the blank with the suitable collective noun: The boy carried a _____ of sticks on his head.", options: ["bundle", "bunch", "number", "bouquet"], ans: "bundle" },
+      { id: 6, section: 'English', q: "What is the plural of 'Deer'?", options: ["deers", "deer", "dearer", "dear"], ans: "deer" },
+      { id: 7, section: 'English', q: "The children finished their work _____.", options: ["quick", "finish", "done", "quickly"], ans: "quickly" },
+      { id: 8, section: 'English', q: "The correct meaning of 'Every cloud has a silver lining' is:", options: ["All the clouds are of silver colour.", "Clouds seem to be shining like silver.", "There is something positive in every situation.", "Clouds are full of water."], ans: "There is something positive in every situation." },
+      { id: 9, section: 'English', q: "_____ the tall oak tree, there was a small, hidden path leading to the river.", options: ["Beside", "Besides", "With", "Through"], ans: "Beside" },
+
+      // HINDI (10-17)
+      { id: 10, section: 'Hindi', q: "'उन्नति' का विलोम बताइए:", options: ["नूतन", "विस्तार", "अवनति", "जीवित"], ans: "अवनति" },
+      { id: 11, section: 'Hindi', q: "निम्नलिखित में से कौन-सा 'आग' का पर्यायवाची नहीं है?", options: ["अग्नि", "चंद्रमा", "ज्वाला", "पावक"], ans: "चंद्रमा" },
+      { id: 12, section: 'Hindi', q: "इला कौन-सी परीक्षा पास नहीं कर पाई थी?", options: ["बी०ए०", "एम०ए०", "दसवीं", "सातवीं"], ans: "दसवीं" },
+      { id: 13, section: 'Hindi', q: "“जो कम खर्च करता हो।” उसके लिए एक शब्द होगा?", options: ["कंजूस", "मितव्ययी", "अर्जीला", "व्ययी"], ans: "मितव्ययी" },
+      { id: 14, section: 'Hindi', q: "'उसको व्यापार में करोड़ों का घाटा हो गया।' उक्त वाक्य में किस प्रकार का विशेषण है?", options: ["गुण बोधक विशेषण", "परिमाण बोधक विशेषण", "अनिश्चय बोधक विशेषण", "सार्वनामिक बोधक विशेषण"], ans: "अनिश्चय बोधक विशेषण" },
+      { id: 15, section: 'Hindi', q: "निम्नलिखित शब्दों में से अकर्मक क्रिया का उदाहरण है।", options: ["बनाना", "तैरना", "धोना", "लेना"], ans: "तैरना" },
+      { id: 16, section: 'Hindi', q: "'टेलीग्राफ' शब्द है।", options: ["यूनानी", "अरबी", "जापानी", "चीनी"], ans: "यूनानी" },
+      { id: 17, section: 'Hindi', q: "'खिलौनेवाला' नामक कविता किसके द्वारा लिखित है?", options: ["प्रसाद", "पन्त", "तुलसीदास", "सुभद्रा कुमारी चौहान"], ans: "सुभद्रा कुमारी चौहान" },
+
+      // URDU (18-25)
+      { id: 18, section: 'Urdu', isRTL: true, q: "سکھوں کی مقدس کتاب کا کیا نام ہے؟", options: ["گروچون صاحب", "گرو گرنتھ صاحب", "گرو نانک صاحب", "گرو پرب"], ans: "گرو گرنتھ صاحب" },
+      { id: 19, section: 'Urdu', isRTL: true, q: "اسم یا ضمیر کی خصوصیت بتانے والے الفاظ کو کیا کہتے ہیں؟", options: ["صفت", "فعل", "اسم نکرہ", "اسم عام"], ans: "صفت" },
+      { id: 20, section: 'Urdu', isRTL: true, q: "سفینہ کا معنی ان میں سے کیا ہے؟", options: ["کشتی", "پتوار", "ملاح", "سائل"], ans: "کشتی" },
+      { id: 21, section: 'Urdu', isRTL: true, q: "گرو نانک کی تعلیمات کون سی کتاب میں جمع ہیں؟", options: ["گرو گرنتھ صاحب", "گیتا", "قرآن", "بائبل"], ans: "گرو گرنتھ صاحب" },
+      { id: 22, section: 'Urdu', isRTL: true, q: "نظم “ترانہ ہندی” کس شاعر نے لکھی ہے؟", options: ["اختر شیرانی", "افسر میرٹھی", "محمد اقبال", "اسماعیل میرٹھی"], ans: "محمد اقبال" },
+      { id: 23, section: 'Urdu', isRTL: true, q: "سنامی کس زبان کا لفظ ہے؟", options: ["انگریزی", "جاپانی", "ہندوستانی", "لیٹن"], ans: "جاپانی" },
+      { id: 24, section: 'Urdu', isRTL: true, q: "نیچے لکھے ہوئے الفاظ میں سے لفظ “بر باد” کا صحیح متضاد بتائیے۔", options: ["ویران", "آباد", "سنسان", "شاداب"], ans: "آباد" },
+      { id: 25, section: 'Urdu', isRTL: true, q: "ملیالم زبان کہاں بولی جاتی ہے؟", options: ["کرناٹک", "تامل ناڈو", "آندھرا پردیش", "کیرالا"], ans: "کیرالا" },
+
+      // MATHEMATICS (26-55)
+      { id: 26, section: 'Mathematics', q: "What number am I? • I am a two digit even number. • I am a common multiple of 6 and 7. • I have a total of 12 factors.", options: ["35", "42", "36", "84"], ans: "84" },
+      { id: 27, section: 'Mathematics', q: "Rahul left home at 7:15 am to go to work. He returned home at 4:45 pm. What is the total amount of time Rahul was away from home?", options: ["7 hours 30 minutes", "9 hours 30 minutes", "3 hours 30 minutes", "8 hours 30 minutes"], ans: "9 hours 30 minutes" },
+      { id: 28, section: 'Mathematics', q: "A box contains 11 muskmelons weighing 255 gm each and 15 mangoes weighing 85 gm each. If the total weight of the box is 5 kg, then what is the weight of the empty box?", options: ["920 gm", "990 gm", "940 gm", "845 gm"], ans: "920 gm" },
+      { id: 29, section: 'Mathematics', q: "Radhika and Tanya run 207.55 m and 117.05 m respectively in 60 seconds. Who runs more and by how much?", options: ["Tanya, 13.05 m", "Radhika, 90.5 m", "Radhika, 9.05 m", "Tanya, 7.50 m"], ans: "Radhika, 90.5 m" },
+      { id: 30, section: 'Mathematics', q: "Which is greater?", options: ["2.3", "2.03", "2.33", "2.033"], ans: "2.33" },
+      { id: 31, section: 'Mathematics', q: "15 bags of salt cost rupees 375. If each bag contains 5 kg of salt, then find the cost of 1 kg of salt.", options: ["Rs. 17.5", "Rs. 15", "Rs. 5", "Rs. 25"], ans: "Rs. 5" },
+      { id: 32, section: 'Mathematics', q: "Multiplicative inverse of 30 is:", options: ["1/30", "60", "1/60", "300"], ans: "1/30" },
+      { id: 33, section: 'Mathematics', q: "There are 15 students in a row. Sahil is third from the left end and Dhruv is eighth from the right end. How many students are sitting between Sahil and Dhruv?", options: ["4", "5", "6", "8"], ans: "4" },
+      { id: 34, section: 'Mathematics', q: "Which of the following options shows the common multiples of 5 and 15?", options: ["5, 10, 15, 20, 30, 35, 40, …", "15, 30, 45, 60, …", "10, 20, 30, 40, …", "5, 15, 25, 35, …"], ans: "15, 30, 45, 60, …" },
+      { id: 35, section: 'Mathematics', q: "In a standard dice net (where 1-5, 2-4, and 3-6 are opposite faces), which digit will appear on the face opposite to the face with number '6'?", options: ["3", "5", "6", "1"], ans: "3" },
+      { id: 36, section: 'Mathematics', q: "How many of the following numbers are multiples of both 9 and 12? [ 18, 27, 60, 72, 96, 144 ]", options: ["1", "2", "3", "4"], ans: "2" },
+      { id: 37, section: 'Mathematics', q: "Tomato costs Rs. 20 per kg. What will be the price of 2 ¾ kg of tomatoes?", options: ["Rs. 40", "Rs. 55", "Rs. 60", "Rs. 65"], ans: "Rs. 55" },
+      { id: 38, section: 'Mathematics', q: "In AMU Class VI Entrance Admission Test, a student solved 68 questions out of 85. What fraction of total questions the student couldn't solve?", options: ["1/5", "4/5", "2/5", "3/5"], ans: "1/5" },
+      { id: 39, section: 'Mathematics', q: "Out of 9 dots arranged in a 3×3 grid, how many squares can be made by joining the dots?", options: ["3", "4", "5", "6"], ans: "6" },
+      { id: 40, section: 'Mathematics', q: "The amount of sand, a container can hold, is called its ________.", options: ["Area", "Capacity", "Perimeter", "Weight"], ans: "Capacity" },
+      { id: 41, section: 'Mathematics', q: "If the volume of a cuboidal carton of length 20m and breadth 15m is 1800 m³. Then, its height would be:", options: ["8 m", "7 m", "5 m", "6 m"], ans: "6 m" },
+      { id: 42, section: 'Mathematics', q: "If Rohan's heart beats 72 times in one minute, how many times does it beat in 30 seconds?", options: ["37 times", "35 times", "36 times", "38 times"], ans: "36 times" },
+      { id: 43, section: 'Mathematics', q: "If 375 water tanks can hold 2,06,250 litres of water, then the capacity of one water tank is:", options: ["530L", "550L", "540L", "520L"], ans: "550L" },
+      { id: 44, section: 'Mathematics', q: "The next number of the pattern 3, 13, 23, 33, … is:", options: ["38", "43", "53", "63"], ans: "43" },
+      { id: 45, section: 'Mathematics', q: "If you are facing towards North, then which direction will be shown by your backside?", options: ["North", "East", "South", "West"], ans: "South" },
+      { id: 46, section: 'Mathematics', q: "A map scale tells us:", options: ["Time", "Distance", "Temperature", "Direction"], ans: "Distance" },
+      { id: 47, section: 'Mathematics', q: "How many degrees does the second hand of a clock turn through in one second?", options: ["6°", "60°", "1°", "36°"], ans: "6°" },
+      { id: 48, section: 'Mathematics', q: "1/4 of a complete angle (360°) is:", options: ["Acute angle", "Obtuse angle", "Right angle", "Reflex angle"], ans: "Right angle" },
+      { id: 49, section: 'Mathematics', q: "Choose the correct option to write CDXXIX in Hindu-Arabic numeral.", options: ["492", "429", "529", "592"], ans: "429" },
+      { id: 50, section: 'Mathematics', q: "If the cost of 12 books is Rs. 1800, what will be the cost of 5 books?", options: ["Rs. 150", "Rs. 360", "Rs. 750", "Rs. 900"], ans: "Rs. 750" },
+      { id: 51, section: 'Mathematics', q: "The greatest number which exactly divides the numbers 12, 18 and 30 is:", options: ["24", "30", "6", "12"], ans: "6" },
+      { id: 52, section: 'Mathematics', q: "Anam plays a football match on every 6th day and Akram on every 8th day. Today they both went to play their matches. When will they again have their matches on the same day?", options: ["12th day", "10th day", "8th day", "24th day"], ans: "24th day" },
+      { id: 53, section: 'Mathematics', q: "Find the missing number in the following pattern: 2, 9, 16, 23, ……", options: ["25", "30", "35", "27"], ans: "30" },
+      { id: 54, section: 'Mathematics', q: "Which shape has more than four lines of symmetry?", options: ["Square", "Rectangle", "Circle", "Triangle"], ans: "Circle" },
+      { id: 55, section: 'Mathematics', q: "Find the odd one out:", options: ["7", "9", "4", "6"], ans: "7" },
+
+      // SCIENCE & EVS (56-85)
+      { id: 56, section: 'Science & EVS', q: "An example of animal fibre is:", options: ["Cotton", "Jute", "Nylon", "Wool"], ans: "Wool" },
+      { id: 57, section: 'Science & EVS', q: "What is the normal range of haemoglobin in human blood?", options: ["12 to 22 gm/dl", "12 to 19 gm/dl", "12 to 16 gm/dl", "12 to 20 gm/dl"], ans: "12 to 16 gm/dl" },
+      { id: 58, section: 'Science & EVS', q: "Nerves are made up of:", options: ["Cornea", "Bones", "Retina", "Neurons"], ans: "Neurons" },
+      { id: 59, section: 'Science & EVS', q: "Which is the outermost part of a seed?", options: ["Cotyledon", "Embryo", "Seed Coat", "Radicle"], ans: "Seed Coat" },
+      { id: 60, section: 'Science & EVS', q: "The largest part of the brain is:", options: ["Cerebrum", "Cerebellum", "Medulla", "Pons"], ans: "Cerebrum" },
+      { id: 61, section: 'Science & EVS', q: "No rainfall leads to:", options: ["Famine", "Drought", "Flood", "Tsunami"], ans: "Drought" },
+      { id: 62, section: 'Science & EVS', q: "What was the name of Gandhi Ji's Ashram?", options: ["Hiramati", "Gyanvati", "Virdawan", "Sabarmati"], ans: "Sabarmati" },
+      { id: 63, section: 'Science & EVS', q: "Which sound do you find soothing?", options: ["Honking of horns", "The gurgle of the flowing river", "Sounds of bursting of crackers", "Electric drill"], ans: "The gurgle of the flowing river" },
+      { id: 64, section: 'Science & EVS', q: "From where we get fuel for aircrafts?", options: ["Coal", "Petroleum", "Hydrogen", "Iron"], ans: "Petroleum" },
+      { id: 65, section: 'Science & EVS', q: "How many types of snakes are poisonous in India?", options: ["6 types", "4 types", "8 types", "2 types"], ans: "4 types" },
+      { id: 66, section: 'Science & EVS', q: "Who is the author of the book “How we Found Earth is Round”?", options: ["Isaac Newton", "Gandhi Ji", "Isaac Asimov", "Fredrick"], ans: "Isaac Asimov" },
+      { id: 67, section: 'Science & EVS', q: "How can we save water at home?", options: ["By leaving the tap running while brushing teeth.", "By ignoring the leaky taps.", "By mopping the floor instead of washing it.", "By washing fruits and vegetables under running water."], ans: "By mopping the floor instead of washing it." },
+      { id: 68, section: 'Science & EVS', q: "Which of the following activities are responsible for ground water depletion?", options: ["Excessive rain", "Water management", "Industrial activities", "Reforestation"], ans: "Industrial activities" },
+      { id: 69, section: 'Science & EVS', q: "Which of the following seed is not used as a spice?", options: ["Fennel", "Pepper", "Gram", "Coriander"], ans: "Gram" },
+      { id: 70, section: 'Science & EVS', q: "Example of insectivorous plant is:", options: ["Cumin", "Corn", "Triticum", "Nepenthes"], ans: "Nepenthes" },
+      { id: 71, section: 'Science & EVS', q: "Which of the following techniques is used to preserve milk?", options: ["Salting", "Pasteurization", "By adding spices", "Hydration"], ans: "Pasteurization" },
+      { id: 72, section: 'Science & EVS', q: "The process by which food items such as fruits and vegetables can be prevented from spoiling is called:", options: ["Food preservation", "Food packaging", "Food spoilage", "Food storage"], ans: "Food preservation" },
+      { id: 73, section: 'Science & EVS', q: "To make tea, we put water, milk, sugar & tea leaves. Which out of these is insoluble in water?", options: ["Milk", "Sugar", "Water", "Tea leaves"], ans: "Tea leaves" },
+      { id: 74, section: 'Science & EVS', q: "What is it called when girls are not allowed to play the games, to study or do some other work of their choice?", options: ["Caste bias", "Gender bias", "Apartheid", "All of these"], ans: "Gender bias" },
+      { id: 75, section: 'Science & EVS', q: "Who is the first Indian Woman to reach the peak of Mount Everest?", options: ["Sunita Williams", "Sarojini Naidu", "Indira Gandhi", "Bachchendri Pal"], ans: "Bachchendri Pal" },
+      { id: 76, section: 'Science & EVS', q: "Apart from prescribing medicines the doctors advise to treat Anaemia through eating what kind of foods?", options: ["Fish, Chicken and Paneer", "Jaggery, Amla and Green Leafy Vegetables", "Turmeric, Coriander and Cinnamon", "None of these"], ans: "Jaggery, Amla and Green Leafy Vegetables" },
+      { id: 77, section: 'Science & EVS', q: "Bark of which tree is used to make medicine for Malaria?", options: ["Neem", "Cinchona", "Mango", "Eucalyptus"], ans: "Cinchona" },
+      { id: 78, section: 'Science & EVS', q: "Which is the saltiest sea in the world?", options: ["Arabian Sea", "Bay of Bengal", "Dead Sea", "Red Sea"], ans: "Dead Sea" },
+      { id: 79, section: 'Science & EVS', q: "Leh is located in:", options: ["Delhi", "Kashmir", "Gujarat", "Ladakh"], ans: "Ladakh" },
+      { id: 80, section: 'Science & EVS', q: "Fishermen are most affected by:", options: ["Tsunami", "Floods", "Drought", "Earthquake"], ans: "Tsunami" },
+      { id: 81, section: 'Science & EVS', q: "When there is no crop, the situation is called:", options: ["Poverty", "Famine", "Drought", "Carelessness"], ans: "Famine" },
+      { id: 82, section: 'Science & EVS', q: "The calamity occurred on 26 January 2001 in India was:", options: ["Flood", "Drought", "Earthquake", "Volcanic Eruption"], ans: "Earthquake" },
+      { id: 83, section: 'Science & EVS', q: "Beautiful white houses are found in:", options: ["Mumbai", "Gujarat", "Rajasthan", "Leh"], ans: "Leh" },
+      { id: 84, section: 'Science & EVS', q: "What measure was taken to save Jodhpur from the crisis of water in 1986?", options: ["Restoration of Canals", "Restoration of Ponds", "Restoration of Baoli", "Restoration of Tube well"], ans: "Restoration of Baoli" },
+      { id: 85, section: 'Science & EVS', q: "What was the function of burj in Golconda Fort?", options: ["To ensure security", "Watering plants", "To supply water in fountain", "To have better light and air"], ans: "To ensure security" }
+    ];
+
+    const STORAGE_KEY = 'amu_class6_2025_submissions_v1';
+    let currentView = 'landing';
+    let studentName = '';
+    let studentRoll = '';
+    let shuffledQuestions = [];
+    let currentIdx = 0;
+    let responses = {};
+    let markedReview = {};
+    let timeLeft = 7200; // 2 hours
+    let timerInterval = null;
+    let selectedSubmissionId = null;
+
+    function shuffleArray(arr) {
+      const copy = [...arr];
+      for (let i = copy.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [copy[i], copy[j]] = [copy[j], copy[i]];
+      }
+      return copy;
+    }
+
+    function getSubmissions() {
+      try {
+        const raw = localStorage.getItem(STORAGE_KEY);
+        return raw ? JSON.parse(raw) : [];
+      } catch (e) {
+        return [];
+      }
+    }
+
+    function saveSubmission(sub) {
+      const list = getSubmissions();
+      list.unshift(sub);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+    }
+
+    function formatTime(sec) {
+      const h = Math.floor(sec / 3600);
+      const m = Math.floor((sec % 3600) / 60);
+      const s = sec % 60;
+      return `${h > 0 ? h + ':' : ''}${m.toString().padStart(2, '0')}:${s.toString().padStart(2, '0')}`;
+    }
+
+    function switchView(view) {
+      if (currentView === 'exam' && view !== 'submitted') {
+        if (!confirm("Are you sure you want to leave the ongoing exam?")) return;
+        clearInterval(timerInterval);
+      }
+      currentView = view;
+      render();
+    }
+
+    function startExam(e) {
+      e.preventDefault();
+      const nameInput = document.getElementById('studentName').value.trim();
+      const rollInput = document.getElementById('studentRoll').value.trim();
+      if (!nameInput) {
+        alert("Kripya apna Username / Full Name darj karein!");
+        return;
+      }
+      studentName = nameInput;
+      studentRoll = rollInput || 'N/A';
+
+      // Ulat-Palat (Shuffle Questions and Shuffle Options)
+      const qShuffled = shuffleArray(RAW_QUESTIONS).map((item, idx) => ({
+        ...item,
+        displayNumber: idx + 1,
+        shuffledOptions: shuffleArray(item.options)
+      }));
+
+      shuffledQuestions = qShuffled;
+      currentIdx = 0;
+      responses = {};
+      markedReview = {};
+      timeLeft = 7200;
+
+      if (timerInterval) clearInterval(timerInterval);
+      timerInterval = setInterval(() => {
+        timeLeft--;
+        const timerEl = document.getElementById('timer-display');
+        if (timerEl) timerEl.textContent = formatTime(timeLeft);
+        if (timeLeft <= 0) {
+          clearInterval(timerInterval);
+          submitExam(true);
+        }
+      }, 1000);
+
+      currentView = 'exam';
+      render();
+    }
+
+    function selectAnswer(qId, val) {
+      responses[qId] = val;
+      renderExamContent();
+    }
+
+    function clearAnswer(qId) {
+      delete responses[qId];
+      renderExamContent();
+    }
+
+    function toggleReview(qId) {
+      markedReview[qId] = !markedReview[qId];
+      renderExamContent();
+    }
+
+    function goToQuestion(idx) {
+      currentIdx = idx;
+      renderExamContent();
+    }
+
+    function submitExam(auto = false) {
+      if (!auto) {
+        const answeredCount = Object.keys(responses).length;
+        if (!confirm(`Aapne 85 me se ${answeredCount} sawal hal kiye hain. Kya aap final test submit karna chahte hain?`)) {
+          return;
+        }
+      }
+      clearInterval(timerInterval);
+
+      let correct = 0, wrong = 0, unattempted = 0;
+      const details = RAW_QUESTIONS.map(q => {
+        const picked = responses[q.id] || null;
+        const isCorrect = picked === q.ans;
+        if (picked === null) unattempted++;
+        else if (isCorrect) correct++;
+        else wrong++;
+        return { id: q.id, section: q.section, q: q.q, chosen: picked, correctAns: q.ans, isCorrect };
+      });
+
+      const record = {
+        id: 'SUB-' + Date.now(),
+        username: studentName,
+        rollNo: studentRoll,
+        submittedAt: new Date().toLocaleString(),
+        timeTaken: formatTime(7200 - timeLeft),
+        totalQuestions: RAW_QUESTIONS.length,
+        attempted: correct + wrong,
+        correct,
+        wrong,
+        unattempted,
+        percentage: ((correct / RAW_QUESTIONS.length) * 100).toFixed(2),
+        details
+      };
+
+      saveSubmission(record);
+      currentView = 'submitted';
+      render();
+    }
+
+    function checkAdminLogin(e) {
+      e.preventDefault();
+      const pass = document.getElementById('adminPass').value.trim();
+      if (pass === 'admin123' || pass === '1234') {
+        currentView = 'admin_dashboard';
+        render();
+      } else {
+        alert("Galat Passcode! Default passcode hai: admin123");
+      }
+    }
+
+    function deleteSubmission(id) {
+      if (!confirm("Kya aap is student ka record delete karna chahte hain?")) return;
+      const list = getSubmissions().filter(s => s.id !== id);
+      localStorage.setItem(STORAGE_KEY, JSON.stringify(list));
+      if (selectedSubmissionId === id) selectedSubmissionId = null;
+      render();
+    }
+
+    function exportCSV() {
+      const subs = getSubmissions();
+      if (!subs.length) return alert("Koi record nahi mila!");
+      const headers = ["Username", "Roll No", "Score (Out of 85)", "Percentage", "Attempted", "Correct", "Wrong", "Unattempted", "Time Taken", "Submitted At"];
+      const rows = subs.map(s => [
+        `"${s.username}"`, `"${s.rollNo}"`, s.correct, `${s.percentage}%`,
+        s.attempted, s.correct, s.wrong, s.unattempted, `"${s.timeTaken}"`, `"${s.submittedAt}"`
+      ]);
+      const csv = "data:text/csv;charset=utf-8," + [headers.join(","), ...rows.map(r => r.join(","))].join("\n");
+      const link = document.createElement("a");
+      link.href = encodeURI(csv);
+      link.download = `AMU_Class6_Results_${new Date().toISOString().slice(0,10)}.csv`;
+      document.body.appendChild(link);
+      link.click();
+      link.remove();
+    }
+
+    function renderExamContent() {
+      const q = shuffledQuestions[currentIdx];
+      const answeredCount = Object.keys(responses).length;
+      const chosen = responses[q.id];
+
+      const mainCard = document.getElementById('exam-question-card');
+      const paletteCard = document.getElementById('exam-palette-grid');
+      const progressText = document.getElementById('exam-progress-text');
+
+      if (progressText) progressText.textContent = `${answeredCount} / 85 Attempted`;
+
+      if (mainCard) {
+        mainCard.innerHTML = `
+          <div class="bg-slate-50 px-6 py-3.5 border-b border-slate-200 flex items-center justify-between">
+            <div class="flex items-center space-x-2">
+              <span class="bg-emerald-900 text-white text-xs font-bold px-2.5 py-1 rounded-md">
+                Question ${currentIdx + 1} of 85
+              </span>
+              <span class="text-xs font-semibold px-2.5 py-1 rounded-md bg-amber-100 text-amber-900 border border-amber-200">
+                ${q.section}
+              </span>
+            </div>
+            <span class="text-xs text-slate-400 font-mono">Paper Set Code: #${q.id}</span>
+          </div>
+
+          <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
+            <div>
+              <p class="text-lg sm:text-xl font-semibold text-slate-800 mb-6 select-none ${q.isRTL ? 'urdu-text text-2xl' : ''}">
+                ${q.q}
+              </p>
+              <div class="space-y-3">
+                ${q.shuffledOptions.map((opt, idx) => {
+                  const label = String.fromCharCode(65 + idx);
+                  const isSelected = chosen === opt;
+                  return `
+                    <button onclick="selectAnswer(${q.id}, '${opt.replace(/'/g, "\'")}')"
+                      class="w-full text-left p-4 rounded-xl border-2 transition flex items-center justify-between ${
+                        isSelected ? 'border-emerald-600 bg-emerald-50/80 text-emerald-950 font-semibold shadow-sm' : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50 text-slate-700'
+                      }">
+                      <div class="flex items-center space-x-3.5 w-full ${q.isRTL ? 'flex-row-reverse space-x-reverse' : ''}">
+                        <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
+                          isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
+                        }">${label}</span>
+                        <span class="text-base ${q.isRTL ? 'urdu-text text-xl w-full' : ''}">${opt}</span>
+                      </div>
+                    </button>
+                  `;
+                }).join('')}
+              </div>
+            </div>
+
+            <div class="pt-6 mt-8 border-t border-slate-200 flex flex-wrap items-center justify-between gap-3">
+              <div class="flex items-center space-x-2">
+                <button onclick="toggleReview(${q.id})" class="px-3.5 py-2 rounded-lg text-xs font-semibold border transition ${
+                  markedReview[q.id] ? 'bg-amber-100 border-amber-400 text-amber-900' : 'border-slate-300 text-slate-600 hover:bg-slate-100'
+                }">
+                  ${markedReview[q.id] ? '★ Marked for Review' : '☆ Mark for Review'}
+                </button>
+                ${chosen ? `<button onclick="clearAnswer(${q.id})" class="px-3.5 py-2 rounded-lg text-xs font-semibold border border-rose-200 text-rose-600 hover:bg-rose-50 transition">Clear</button>` : ''}
+              </div>
+
+              <div class="flex items-center space-x-2">
+                <button onclick="goToQuestion(${Math.max(0, currentIdx - 1)})" ${currentIdx === 0 ? 'disabled' : ''}
+                  class="px-4 py-2 rounded-lg text-sm font-semibold border border-slate-300 text-slate-700 hover:bg-slate-100 disabled:opacity-40">
+                  ← Previous
+                </button>
+                ${currentIdx < 84 ? `
+                  <button onclick="goToQuestion(${currentIdx + 1})" class="px-5 py-2 rounded-lg text-sm font-semibold bg-emerald-700 hover:bg-emerald-800 text-white shadow-sm">
+                    Save & Next →
+                  </button>
+                ` : `
+                  <button onclick="submitExam(false)" class="px-5 py-2 rounded-lg text-sm font-bold bg-rose-600 hover:bg-rose-700 text-white shadow-sm">
+                    Final Submit ✔
+                  </button>
+                `}
+              </div>
+            </div>
+          </div>
+        `;
+      }
+
+      if (paletteCard) {
+        paletteCard.innerHTML = shuffledQuestions.map((item, idx) => {
+          const isAns = responses[item.id] !== undefined;
+          const isRev = markedReview[item.id];
+          const isCur = idx === currentIdx;
+          let cls = 'bg-slate-100 text-slate-600 hover:bg-slate-200';
+          if (isRev) cls = 'bg-amber-400 text-amber-950';
+          else if (isAns) cls = 'bg-emerald-600 text-white';
+          if (isCur) cls += ' ring-2 ring-emerald-900 ring-offset-1';
+          return `<button onclick="goToQuestion(${idx})" class="h-8 rounded-lg text-xs font-bold transition ${cls}">${idx + 1}</button>`;
+        }).join('');
+      }
+    }
+
+    function render() {
+      const container = document.getElementById('app-container');
+
+      if (currentView === 'landing') {
+        container.innerHTML = `
+          <div class="max-w-xl mx-auto mt-6 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="bg-gradient-to-r from-emerald-900 via-emerald-800 to-teal-900 px-6 py-6 text-white">
+              <span class="bg-amber-400/20 text-amber-300 border border-amber-400/30 text-xs font-semibold px-2.5 py-1 rounded-full">
+                2025 Official Question Bank (85 Questions)
+              </span>
+              <h2 class="text-2xl font-bold mt-2">AMU Class-6 Entrance Mock Test</h2>
+              <p class="text-emerald-100 text-sm mt-1">Har student ke liye sawal aur options ulat-palat (auto-shuffle) ho jayenge.</p>
+            </div>
+
+            <form onsubmit="startExam(event)" class="p-6 space-y-5">
+              <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 space-y-1">
+                <p class="font-bold text-sm">📌 Test Rules:</p>
+                <p>• Kul <strong>85 Questions</strong> hain (English, Hindi, Urdu, Maths, Science/EVS).</p>
+                <p>• Sahi jawab ke <strong>+1 mark</strong> hain, koi negative marking nahi hai.</p>
+                <p>• Test submit karne ke baad <strong>student ko score nahi dikhega</strong>. Score sirf <strong>Admin Panel</strong> me dikhega.</p>
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Student Username / Full Name *</label>
+                <input id="studentName" type="text" required placeholder="Apna naam likhein (e.g. Asif Eqbal)"
+                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 outline-none text-sm font-medium"/>
+              </div>
+
+              <div>
+                <label class="block text-sm font-semibold text-slate-700 mb-1.5">Roll Number / ID (Optional)</label>
+                <input id="studentRoll" type="text" placeholder="Apna Roll No. darj karein"
+                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 outline-none text-sm font-medium"/>
+              </div>
+
+              <button type="submit" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3.5 rounded-xl shadow-md transition text-base">
+                Start Shuffled Test (85 Questions) →
+              </button>
+            </form>
+          </div>
+        `;
+      }
+
+      else if (currentView === 'exam') {
+        container.innerHTML = `
+          <div class="bg-white rounded-xl shadow-sm border border-slate-200 p-3.5 mb-5 flex flex-wrap items-center justify-between gap-3">
+            <div class="flex items-center space-x-3">
+              <span class="bg-emerald-100 text-emerald-800 font-bold px-3 py-1 rounded-lg text-sm">👤 ${studentName}</span>
+              <span id="exam-progress-text" class="text-xs font-semibold text-slate-500">0 / 85 Attempted</span>
+            </div>
+            <div class="flex items-center space-x-4">
+              <div class="bg-slate-100 px-3.5 py-1.5 rounded-lg border border-slate-200 font-mono font-bold text-sm text-slate-800">
+                ⏱ <span id="timer-display">${formatTime(timeLeft)}</span>
+              </div>
+              <button onclick="submitExam(false)" class="bg-rose-600 hover:bg-rose-700 text-white font-semibold px-4 py-2 rounded-lg text-sm shadow-sm transition">
+                Submit Test
+              </button>
+            </div>
+          </div>
+
+          <div class="grid grid-cols-1 lg:grid-cols-12 gap-6">
+            <div id="exam-question-card" class="lg:col-span-8 bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden flex flex-col min-h-[430px]"></div>
+            <div class="lg:col-span-4 bg-white rounded-2xl shadow-sm border border-slate-200 p-5">
+              <h3 class="font-bold text-slate-800 text-sm mb-3">Question Palette (Shuffled)</h3>
+              <div id="exam-palette-grid" class="grid grid-cols-7 gap-1.5 max-h-80 overflow-y-auto pr-1"></div>
+              <div class="mt-4 pt-3 border-t border-slate-100 text-xs text-slate-500 space-y-1">
+                <div><span class="inline-block w-3 h-3 bg-emerald-600 rounded mr-1.5"></span>Answered</div>
+                <div><span class="inline-block w-3 h-3 bg-amber-400 rounded mr-1.5"></span>Marked for Review</div>
+                <div><span class="inline-block w-3 h-3 bg-slate-200 rounded mr-1.5"></span>Not Attempted</div>
+              </div>
+            </div>
+          </div>
+        `;
+        renderExamContent();
+      }
+
+      else if (currentView === 'submitted') {
+        const latest = getSubmissions()[0] || {};
+        container.innerHTML = `
+          <div class="max-w-lg mx-auto mt-10 bg-white rounded-2xl shadow-xl border border-slate-200 p-8 text-center">
+            <div class="w-16 h-16 bg-emerald-100 text-emerald-700 rounded-full flex items-center justify-center mx-auto mb-4 text-3xl font-bold">✔</div>
+            <h2 class="text-2xl font-bold text-slate-800">Test Submitted Successfully!</h2>
+            <p class="text-slate-600 text-sm mt-2">
+              Dhanyawad <span class="font-bold text-slate-900">${studentName}</span>! Aapka response सुरक्षित रूप से Admin ke paas save ho gaya hai.
+            </p>
+            <div class="bg-slate-50 rounded-xl p-4 my-6 border border-slate-200 text-left text-sm space-y-2">
+              <div class="flex justify-between"><span class="text-slate-500">Username:</span><span class="font-bold">${studentName}</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Questions Attempted:</span><span class="font-bold text-emerald-700">${latest.attempted || 0} / 85</span></div>
+              <div class="flex justify-between"><span class="text-slate-500">Result Status:</span><span class="font-semibold text-amber-700">🔒 Restricted to Admin Only</span></div>
+            </div>
+            <button onclick="switchView('landing')" class="w-full bg-emerald-700 hover:bg-emerald-800 text-white font-bold py-3 rounded-xl transition">
+              Back to Home (Next Student)
+            </button>
+          </div>
+        `;
+      }
+
+      else if (currentView === 'admin_login') {
+        container.innerHTML = `
+          <div class="max-w-md mx-auto mt-12 bg-white rounded-2xl shadow-xl border border-slate-200 overflow-hidden">
+            <div class="bg-slate-900 px-6 py-5 text-white">
+              <h2 class="text-lg font-bold">🔒 Admin Login</h2>
+              <p class="text-xs text-slate-400">Sirf Admin hi students ka score aur username dekh sakte hain</p>
+            </div>
+            <form onsubmit="checkAdminLogin(event)" class="p-6 space-y-4">
+              <div>
+                <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Admin Passcode</label>
+                <input id="adminPass" type="password" required placeholder="Enter passcode (admin123)"
+                  class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 outline-none text-sm"/>
+                <p class="text-xs text-slate-400 mt-1">Default Passcode: <code>admin123</code></p>
+              </div>
+              <div class="flex space-x-2">
+                <button type="button" onclick="switchView('landing')" class="w-1/3 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold text-slate-600">Cancel</button>
+                <button type="submit" class="w-2/3 py-2.5 rounded-xl bg-emerald-700 hover:bg-emerald-800 text-white text-sm font-bold">Unlock Results</button>
+              </div>
+            </form>
+          </div>
+        `;
+      }
+
+      else if (currentView === 'admin_dashboard') {
+        const subs = getSubmissions();
+        const activeSub = subs.find(s => s.id === selectedSubmissionId) || null;
+        container.innerHTML = `
+          <div class="space-y-6">
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-5 flex flex-wrap items-center justify-between gap-4">
+              <div>
+                <h2 class="text-xl font-bold text-slate-800">Admin Results Dashboard</h2>
+                <p class="text-xs text-slate-500">Total Students Appeared: <strong>${subs.length}</strong></p>
+              </div>
+              <div class="flex items-center space-x-2">
+                <button onclick="exportCSV()" class="bg-emerald-700 hover:bg-emerald-800 text-white text-xs font-bold px-4 py-2.5 rounded-xl">⬇ Export CSV (Excel)</button>
+                <button onclick="switchView('landing')" class="border border-slate-300 text-slate-700 text-xs font-bold px-4 py-2.5 rounded-xl">Logout</button>
+              </div>
+            </div>
+
+            <div class="bg-white rounded-2xl shadow-sm border border-slate-200 overflow-hidden">
+              <div class="overflow-x-auto">
+                <table class="w-full text-left border-collapse">
+                  <thead>
+                    <tr class="bg-slate-100 text-slate-600 text-xs uppercase">
+                      <th class="py-3.5 px-4">Username</th>
+                      <th class="py-3.5 px-4">Roll No</th>
+                      <th class="py-3.5 px-4">Score (85)</th>
+                      <th class="py-3.5 px-4">Percentage</th>
+                      <th class="py-3.5 px-4">Correct / Wrong</th>
+                      <th class="py-3.5 px-4">Submitted At</th>
+                      <th class="py-3.5 px-4 text-right">Actions</th>
+                    </tr>
+                  </thead>
+                  <tbody class="divide-y divide-slate-200 text-sm">
+                    ${subs.length === 0 ? `<tr><td colspan="7" class="py-8 text-center text-slate-400">Abhi tak kisi student ne test submit nahi kiya hai.</td></tr>` :
+                      subs.map(s => `
+                        <tr class="hover:bg-slate-50">
+                          <td class="py-3.5 px-4 font-bold text-slate-900">${s.username}</td>
+                          <td class="py-3.5 px-4 text-slate-600">${s.rollNo}</td>
+                          <td class="py-3.5 px-4"><span class="bg-emerald-100 text-emerald-900 font-extrabold px-2.5 py-1 rounded-lg">${s.correct} / 85</span></td>
+                          <td class="py-3.5 px-4 font-semibold">${s.percentage}%</td>
+                          <td class="py-3.5 px-4 text-xs"><span class="text-emerald-700 font-bold">✔ ${s.correct}</span> • <span class="text-rose-600 font-bold">✖ ${s.wrong}</span></td>
+                          <td class="py-3.5 px-4 text-xs text-slate-500">${s.submittedAt}</td>
+                          <td class="py-3.5 px-4 text-right space-x-2">
+                            <button onclick="selectedSubmissionId='${s.id}'; render();" class="text-xs font-bold text-emerald-700 underline">View Sheet</button>
+                            <button onclick="deleteSubmission('${s.id}')" class="text-xs font-bold text-rose-600 underline">Delete</button>
+                          </td>
+                        </tr>
+                      `).join('')
+                    }
+                  </tbody>
+                </table>
+              </div>
+            </div>
+
+            ${activeSub ? `
+              <div class="bg-white rounded-2xl shadow-sm border border-slate-200 p-6">
+                <div class="flex items-center justify-between pb-4 mb-4 border-b border-slate-200">
+                  <div>
+                    <h3 class="font-bold text-lg text-slate-800">${activeSub.username} ki Answer Sheet (Score: ${activeSub.correct}/85)</h3>
+                    <p class="text-xs text-slate-500">Roll No: ${activeSub.rollNo} • Time Taken: ${activeSub.timeTaken}</p>
+                  </div>
+                  <button onclick="selectedSubmissionId=null; render();" class="text-xs font-bold text-slate-500 border px-3 py-1.5 rounded-lg">Close ✖</button>
+                </div>
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-3 max-h-96 overflow-y-auto pr-1">
+                  ${activeSub.details.map(d => `
+                    <div class="p-3 rounded-xl border text-xs ${d.chosen === null ? 'bg-slate-50 border-slate-200' : d.isCorrect ? 'bg-emerald-50/60 border-emerald-200' : 'bg-rose-50/60 border-rose-200'}">
+                      <p class="font-bold text-slate-800 mb-1">Q#${d.id} (${d.section}): ${d.q}</p>
+                      <p>Student Answer: <strong>${d.chosen || 'Not Attempted'}</strong></p>
+                      <p class="text-emerald-800">Correct Answer: <strong>${d.correctAns}</strong></p>
+                    </div>
+                  `).join('')}
+                </div>
+              </div>
+            ` : ''}
+          </div>
+        `;
+      }
+    }
+
+    // Initial Render
+    render();
+  </script>
+</body>
+</html>
