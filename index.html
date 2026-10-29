@@ -293,11 +293,11 @@
     function checkAdminLogin(e) {
       e.preventDefault();
       const pass = document.getElementById('adminPass').value.trim();
-      if (pass === 'admin123' || pass === '1234') {
+      if (pass === 'Asif@7481') {
         currentView = 'admin_dashboard';
         render();
       } else {
-        alert("Galat Passcode! Default passcode hai: admin123");
+        alert("Galat passcode!");
       }
     }
 
@@ -527,9 +527,8 @@
             <form onsubmit="checkAdminLogin(event)" class="p-6 space-y-4">
               <div>
                 <label class="block text-xs font-bold uppercase text-slate-600 mb-1.5">Admin Passcode</label>
-                <input id="adminPass" type="password" required placeholder="Enter passcode (admin123)"
+                <input id="adminPass" type="password" required placeholder="Enter admin passcode"
                   class="w-full px-4 py-3 rounded-xl border border-slate-300 focus:ring-2 focus:ring-emerald-600 outline-none text-sm"/>
-                <p class="text-xs text-slate-400 mt-1">Default Passcode: <code>admin123</code></p>
               </div>
               <div class="flex space-x-2">
                 <button type="button" onclick="switchView('landing')" class="w-1/3 py-2.5 rounded-xl border border-slate-300 text-sm font-semibold text-slate-600">Cancel</button>
