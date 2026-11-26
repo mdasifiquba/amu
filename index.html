@@ -46,112 +46,102 @@
   <script>
     // Complete 85 Questions Database (AMU Class 6 Entrance Test)
     const RAW_QUESTIONS = [
-      // SECTION 1: URDU (1-8)
-      { id: 1, section: 'Urdu', isRTL: true, q: "لفظ 'شمس' کے کیا معنی ہیں؟", options: ["چاند", "سورج", "ستارہ", "زمین"], ans: "سورج" },
-      { id: 2, section: 'Urdu', isRTL: true, q: "لفظ 'علم' کی جمع کیا ہوگی؟", options: ["علامات", "علوم", "عالم", "معلم"], ans: "علوم" },
-      { id: 3, section: 'Urdu', isRTL: true, q: "'اندھیرے گھر کا اجالا' محاورے کا صحیح مفہوم کیا ہے؟", options: ["روشن چراغ", "پیارا اور اکلوتا بیٹا", "علم کی روشنی", "امیر شخص"], ans: "پیارا اور اکلوتا بیٹا" },
-      { id: 4, section: 'Urdu', isRTL: true, q: "لفظ 'فنا' کی ضد (متضاد) کیا ہے؟", options: ["بقا", "موت", "زوال", "حیات"], ans: "بقا" },
-      { id: 5, section: 'Urdu', isRTL: true, q: "وہ لفظ جو کسی اسم کی جگہ بولا جائے، اسے کیا کہتے ہیں؟", options: ["صفت", "ضمیر", "فعل", "حرف"], ans: "ضمیر" },
-      { id: 6, section: 'Urdu', isRTL: true, q: "لفظ 'سبق' کی جمع بتائیے:", options: ["اسباق", "سبقوں", "سابق", "سبقیں"], ans: "اسباق" },
-      { id: 7, section: 'Urdu', isRTL: true, q: "مشہور نظم 'لب پہ آتی ہے دعا بن کے تمنا میری' کس شاعر نے لکھی ہے؟", options: ["مرزا غالب", "علامہ اقبال", "الطاف حسین حالی", "اسماعیل میرٹھی"], ans: "علامہ اقبال" },
-      { id: 8, section: 'Urdu', isRTL: true, q: "لفظ 'نیک' کا متضاد کیا ہوگا؟", options: ["برا", "بد", "خراب", "دشمن"], ans: "بد" },
+      // SECTION 1: MATHEMATICS (1-10)
+      { id: 1, section: 'Mathematics', q: "How many minutes are there in 4 hours and 20 minutes?", options: ["220 minutes", "240 minutes", "260 minutes", "280 minutes"], ans: "260 minutes" },
+      { id: 2, section: 'Mathematics', q: "A table was bought for Rs. 500 & sold at Rs. 600. The profit percent is", options: ["20", "30", "40", "50"], ans: "20" },
+      { id: 3, section: 'Mathematics', q: "Length × Breadth × Height = The volume of", options: ["Rectangle", "Square", "Triangle", "Cuboid"], ans: "Cuboid" },
+      { id: 4, section: 'Mathematics', q: "The equivalent common fraction of 25% is", options: ["1/4", "1/8", "1/16", "1/10"], ans: "1/4" },
+      { id: 5, section: 'Mathematics', q: "Aman spends 80% of his salary. If his salary is Rs. 2500, what amount does he save?", options: ["Rs. 1000", "Rs. 500", "Rs. 400", "Rs. 200"], ans: "Rs. 500" },
+      { id: 6, section: 'Mathematics', q: "If 309.056 is divided by 100, the answer would be", options: ["3.09056", "30.09065", "3090.56", "30905.60"], ans: "3.09056" },
+      { id: 7, section: 'Mathematics', q: "The LCM and the HCF of two numbers is 1100 and 23 respectively. If one number is 275, the other would be", options: ["28", "24", "96", "92"], ans: "92" },
+      { id: 8, section: 'Mathematics', q: "30% of 5 meters is", options: ["1.5 cm", "15 cm", "150 cm", "1500 cm"], ans: "150 cm" },
+      { id: 9, section: 'Mathematics', q: "Three boys earn Rs. 27 in 1 hour. How many rupees will two boys earn in 1 hour?", options: ["Rs. 9", "Rs. 18", "Rs. 27", "Rs. 36"], ans: "Rs. 18" },
+      { id: 10, section: 'Mathematics', q: "Height of bricks is 7 cm. To reach 1.4 m high, number of bricks required is", options: ["2", "20", "200", "2000"], ans: "20" },
 
-      // SECTION 2: HINDI (9-15)
-      { id: 9, section: 'Hindi', q: "'सूर्योदय' शब्द का सही विलोम क्या होगा?", options: ["सूर्यास्त", "संध्या", "प्रकाश", "प्रभात"], ans: "सूर्यास्त" },
-      { id: 10, section: 'Hindi', q: "'आँखों का तारा होना' मुहावरे का सही अर्थ क्या है?", options: ["बहुत प्रिय होना", "आँखों में दर्द होना", "बहुत दूर होना", "कम दिखाई देना"], ans: "बहुत प्रिय होना" },
-      { id: 11, section: 'Hindi', q: "निम्नलिखित में से 'जल' का पर्यायवाची शब्द कौन-सा नहीं है?", options: ["नीर", "तोय", "पावक", "वारि"], ans: "पावक" },
-      { id: 12, section: 'Hindi', q: "'पुस्तक' का बहुवचन रूप क्या होगा?", options: ["पुस्तके", "पुस्तकें", "पुस्तिकाओं", "पुस्तकी"], ans: "पुस्तकें" },
-      { id: 13, section: 'Hindi', q: "संज्ञा के स्थान पर प्रयुक्त होने वाले शब्द को क्या कहते हैं?", options: ["विशेषण", "क्रिया", "सर्वनाम", "कारक"], ans: "सर्वनाम" },
-      { id: 14, section: 'Hindi', q: "शुद्ध वर्तनी (Correct Spelling) वाला शब्द पहचानिए:", options: ["उज्वल", "उज्ज्वल", "उजवल", "ऊज्वल"], ans: "उज्ज्वल" },
-      { id: 15, section: 'Hindi', q: "'सत्य' बोलने वाले को क्या कहा जाता है?", options: ["सत्यवादी", "सत्यप्रिय", "सत्याग्रही", "साधु"], ans: "सत्यवादी" },
+      // SECTION 2: SCIENCE (11-51)
+      { id: 11, section: 'Science', q: "Which one of the following stimuli, the animals do not react?", options: ["Light", "Heat", "Water", "Sound"], ans: "Water" },
+      { id: 12, section: 'Science', q: "Name the equipment used to keep fishes for a long time to observe", options: ["Aquarium", "Laboratory", "Fish home", "Snail's home"], ans: "Aquarium" },
+      { id: 13, section: 'Science', q: "The lime water turns milky when ........ passes through it.", options: ["Oxygen", "Hydrogen", "Air", "Carbon dioxide"], ans: "Carbon dioxide" },
+      { id: 14, section: 'Science', q: "Which one of the following animals does not give birth to off spring?", options: ["Horse", "Snake", "Tiger", "Rat"], ans: "Snake" },
+      { id: 15, section: 'Science', q: "When we breath in ........, it burn out food and releases energy", options: ["any gas", "nitrogen", "bad smell", "oxygen"], ans: "oxygen" },
+      { id: 16, section: 'Science', q: "Which one of the following living thing lays eggs?", options: ["Butterfly", "Elephant", "Lion", "Horse"], ans: "Butterfly" },
+      { id: 17, section: 'Science', q: "The place in which a plant grows or an animal lives is called its", options: ["Home", "Habitat", "Environment", "Surroundings"], ans: "Habitat" },
+      { id: 18, section: 'Science', q: "The animals who can live in water as well as on land are called", options: ["Gills", "Amphibians", "Herbivores", "Carnivores"], ans: "Amphibians" },
+      { id: 19, section: 'Science', q: "The baby plant inside the seed is called", options: ["Corn", "Pea", "Embryo", "Baby plant"], ans: "Embryo" },
+      { id: 20, section: 'Science', q: "........ protects our lungs, heart and other internal organs from outside injury.", options: ["Muscles", "Hinge joints", "Bone cage", "Special bones"], ans: "Bone cage" },
+      { id: 21, section: 'Science', q: "Deficiency of which vitamin mainly causes night blindness", options: ["Vitamin D", "Vitamin C", "Vitamin B", "Vitamin A"], ans: "Vitamin A" },
+      { id: 22, section: 'Science', q: "Because of deficiency of the iron in food we suffer from", options: ["Anemia", "Blood pressure", "Fever", "Headache"], ans: "Anemia" },
+      { id: 23, section: 'Science', q: "Excessive breeding of mosquitoes results in", options: ["Cholera", "Malaria", "Typhoid", "Jaundice"], ans: "Malaria" },
+      { id: 24, section: 'Science', q: "Eating food which is exposed to flies spreads", options: ["Malaria", "Cough", "Diarrhea", "Tetanus"], ans: "Diarrhea" },
+      { id: 25, section: 'Science', q: "When running water takes away top soil, we call it", options: ["Conservation", "Erosion", "Silting", "De-silting"], ans: "Erosion" },
+      { id: 26, section: 'Science', q: "Air constantly exerts ........ on all surfaces", options: ["water", "pressure", "oil", "pollution"], ans: "pressure" },
+      { id: 27, section: 'Science', q: "Air contains", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "All of these"], ans: "All of these" },
+      { id: 28, section: 'Science', q: "If we throw any heavy object, it falls back on the ground due to", options: ["Push force", "Friction", "Pull force", "Force of gravity"], ans: "Force of gravity" },
+      { id: 29, section: 'Science', q: "Direction of a moving object can be changed by", options: ["Applying force", "Reducing friction", "Using energy", "Increasing friction"], ans: "Applying force" },
+      { id: 30, section: 'Science', q: "........ is used to fix nails.", options: ["Hammer", "Wrench", "Pulley", "Lever"], ans: "Hammer" },
+      { id: 31, section: 'Science', q: "Object which fully allow light to pass through them are called ........ objects.", options: ["Transparent", "Translucent", "Clear", "Unclear"], ans: "Transparent" },
+      { id: 32, section: 'Science', q: "Scientists who study sun, moon & stars are called", options: ["Sky Scientists", "Astronomers", "Geographers", "Natural Scientists"], ans: "Astronomers" },
+      { id: 33, section: 'Science', q: "Carbon dioxide is needed by green plants to", options: ["Grow fast", "Avoid insects", "Grow taller", "prepare food"], ans: "prepare food" },
+      { id: 34, section: 'Science', q: "Citrus fruits, green coriander & mint leaves contain", options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], ans: "Vitamin C" },
+      { id: 35, section: 'Science', q: "Which disease is caused due to deficiency of Vitamin D?", options: ["Jaundice", "Malaria", "Cholera", "Rickets"], ans: "Rickets" },
+      { id: 36, section: 'Science', q: "Spongy and bleeding gums are symptoms of the deficiency of", options: ["Vitamin A", "Vitamin B", "Vitamin C", "Vitamin D"], ans: "Vitamin C" },
+      { id: 37, section: 'Science', q: "The B.C.G vaccine is given against", options: ["Cholera", "Polio", "Tuberculosis", "Tetanus"], ans: "Tuberculosis" },
+      { id: 38, section: 'Science', q: "At present there is no vaccine for preventing", options: ["Diphtheria", "Malaria", "Tetanus", "Polio"], ans: "Malaria" },
+      { id: 39, section: 'Science', q: "Which is not a communicable disease?", options: ["Cholera", "Tuberculosis", "Scurvy", "Typhoid"], ans: "Scurvy" },
+      { id: 40, section: 'Science', q: "The most effective way of waste material disposal is to", options: ["Make a sanitary land fill", "Burn it", "Dump it on roadside", "Dump it near source of water"], ans: "Make a sanitary land fill" },
+      { id: 41, section: 'Science', q: "Pollution of air is due to", options: ["Carbon dioxide given out by human being and animals", "Smoke given out by automobile factories", "Cutting of green plants", "All of the above"], ans: "All of the above" },
+      { id: 42, section: 'Science', q: "We can change the direction of a moving object by", options: ["Reducing friction", "Increasing friction", "Applying force", "Changing shape"], ans: "Applying force" },
+      { id: 43, section: 'Science', q: "Crow bar is an example of", options: ["A lever", "An inclined plane", "A wedge", "Pulley"], ans: "A lever" },
+      { id: 44, section: 'Science', q: "Screw jack makes work easier because work is", options: ["Divided into small part", "Done with machine", "Done with the help of a handle", "Spread over a large distance"], ans: "Spread over a large distance" },
+      { id: 45, section: 'Science', q: "Capacity to do work is called", options: ["Force", "Friction", "Energy", "None of these"], ans: "Energy" },
+      { id: 46, section: 'Science', q: "A lunar eclipse occurs when", options: ["Earth lies between the sun and the moon", "Sun lies in between the earth & the moon", "Moon lies in between the sun & the earth", "None of these"], ans: "Earth lies between the sun and the moon" },
+      { id: 47, section: 'Science', q: "The length of a shadow of an object is shortest", options: ["At 3:00 p.m", "In the evening", "At noon", "In the morning"], ans: "At noon" },
+      { id: 48, section: 'Science', q: "\"White revolution\" means increasing the", options: ["Egg production", "Fish production", "Dairy products", "Production of rice"], ans: "Dairy products" },
+      { id: 49, section: 'Science', q: "Which one of the following is an insecticide?", options: ["2, 4-D", "D.D.T", "Urea", "Dettol"], ans: "D.D.T" },
+      { id: 50, section: 'Science', q: "Chernobyl is located in", options: ["Germany", "Soviet union", "China", "Sweden"], ans: "Soviet union" },
+      { id: 51, section: 'Science', q: "Achievement in the field of medicine has helped mankind to eradicate", options: ["Heart disease", "Cholera", "Smallpox", "Tuberculosis"], ans: "Smallpox" },
 
-      // SECTION 3: ENGLISH (16-23)
-      { id: 16, section: 'English', q: "What is the plural of \"Child\"?", options: ["Childs", "Childrens", "Children", "Childes"], ans: "Children" },
-      { id: 17, section: 'English', q: "Fill in the blank: \"She has been waiting here _____ two hours.\"", options: ["since", "for", "at", "from"], ans: "for" },
-      { id: 18, section: 'English', q: "Choose the correct article: \"Copper is _____ useful metal.\"", options: ["an", "a", "the", "no article"], ans: "a" },
-      { id: 19, section: 'English', q: "What is the antonym of the word \"Ancient\"?", options: ["Old", "Historic", "Modern", "Traditional"], ans: "Modern" },
-      { id: 20, section: 'English', q: "Identify the adjective in the sentence: \"He is a brave soldier.\"", options: ["He", "is", "brave", "soldier"], ans: "brave" },
-      { id: 21, section: 'English', q: "What is the feminine gender of \"Horse\"?", options: ["Doe", "Cow", "Mare", "Bitch"], ans: "Mare" },
-      { id: 22, section: 'English', q: "Complete the sentence: \"The book is _____ the table.\"", options: ["on", "at", "of", "into"], ans: "on" },
-      { id: 23, section: 'English', q: "Past tense of the verb \"Fly\" is:", options: ["Flew", "Flown", "Flying", "Fleed"], ans: "Flew" },
+      // SECTION 3: ENGLISH (52-56)
+      { id: 52, section: 'English', q: "The direct form of (He said that the boys had been pelting stones at the beggar) is", options: ["He said, \"The boys pelted stones at the beggar\"", "He said, \"The boys are pelting stones at the beggar\"", "He said, \"The boys pelt stones at the beggar\"", "He said, \"The boys were pelting stones at the beggar\""], ans: "He said, \"The boys were pelting stones at the beggar\"" },
+      { id: 53, section: 'English', q: "The negative form of: 'The dog barks loudly' is", options: ["The dog does not bark loudly.", "The dog is not barking loudly.", "The dog will not bark loudly.", "The dog was not barking loudly."], ans: "The dog does not bark loudly." },
+      { id: 54, section: 'English', q: "The people ............ take the law seriously.", options: ["is not", "are not", "do not", "does not"], ans: "do not" },
+      { id: 55, section: 'English', q: "Which suffix is not correct for 'humour'?", options: ["ly", "ion", "ish", "ous"], ans: "ion" },
+      { id: 56, section: 'English', q: "Give me ............ one rupee note.", options: ["an", "a", "the", "all"], ans: "a" },
 
-      // SECTION 4: MATHEMATICS (24-38)
-      { id: 24, section: 'Mathematics', q: "Find the HCF of 18 and 24:", options: ["2", "3", "6", "12"], ans: "6" },
-      { id: 25, section: 'Mathematics', q: "Find the LCM of 12, 15, and 20:", options: ["30", "45", "60", "120"], ans: "60" },
-      { id: 26, section: 'Mathematics', q: "Solve: 3/4 + 1/2", options: ["4/6", "5/4", "2/3", "7/4"], ans: "5/4" },
-      { id: 27, section: 'Mathematics', q: "What is the perimeter of a rectangle having length 14 cm and breadth 6 cm?", options: ["20 cm", "40 cm", "84 cm", "28 cm"], ans: "40 cm" },
-      { id: 28, section: 'Mathematics', q: "Evaluate: 2.5 × 0.4", options: ["1.0", "0.1", "10.0", "0.01"], ans: "1.0" },
-      { id: 29, section: 'Mathematics', q: "What is the place value of 7 in 45,782?", options: ["7", "70", "700", "7000"], ans: "700" },
-      { id: 30, section: 'Mathematics', q: "Convert 3/5 into a percentage:", options: ["30%", "50%", "60%", "75%"], ans: "60%" },
-      { id: 31, section: 'Mathematics', q: "The perimeter of a square is 48 cm. Find the length of its side:", options: ["12 cm", "16 cm", "24 cm", "8 cm"], ans: "12 cm" },
-      { id: 32, section: 'Mathematics', q: "Which of the following is the smallest prime number?", options: ["0", "1", "2", "3"], ans: "2" },
-      { id: 33, section: 'Mathematics', q: "How many seconds are there in 2 hours?", options: ["120", "3600", "7200", "1800"], ans: "7200" },
-      { id: 34, section: 'Mathematics', q: "Write the Roman numeral for 49:", options: ["XLIX", "IL", "LXIX", "LIX"], ans: "XLIX" },
-      { id: 35, section: 'Mathematics', q: "The sum of all three angles of a triangle is always:", options: ["90°", "180°", "270°", "360°"], ans: "180°" },
-      { id: 36, section: 'Mathematics', q: "A car travels 180 km in 3 hours. What is its speed?", options: ["50 km/h", "60 km/h", "70 km/h", "55 km/h"], ans: "60 km/h" },
-      { id: 37, section: 'Mathematics', q: "What is the predecessor of 1,00,000?", options: ["99,999", "9,999", "1,00,001", "99,990"], ans: "99,999" },
-      { id: 38, section: 'Mathematics', q: "A circle has a radius of 7 cm. Its diameter is:", options: ["14 cm", "21 cm", "28 cm", "49 cm"], ans: "14 cm" },
+      // SECTION 4: MATHEMATICS (57-67)
+      { id: 57, section: 'Mathematics', q: "How much lakhs make one crore?", options: ["10 lakhs", "1 lakhs", "100 lakhs", "1000 lakhs"], ans: "100 lakhs" },
+      { id: 58, section: 'Mathematics', q: "Name of places in ones periods is", options: ["Hundred", "Ten", "One", "One, ten & hundred"], ans: "One, ten & hundred" },
+      { id: 59, section: 'Mathematics', q: "A mixed numeral of 101/7", options: ["18 3/7", "14 3/7", "14 4/7", "15 3/4"], ans: "14 3/7" },
+      { id: 60, section: 'Mathematics', q: "The product of 1 4/5 and 9 1/2", options: ["1 4/5", "110/70", "17 1/10", "1 17/10"], ans: "17 1/10" },
+      { id: 61, section: 'Mathematics', q: "The division of 3 by 3/4 is", options: ["3", "4", "1", "2"], ans: "4" },
+      { id: 62, section: 'Mathematics', q: "Expanded form of the decimal 18.009 is", options: ["1 ten + 8 ones + 9 hundred", "1 ten + 8 ones + 9 tenths", "1 ten + 8 ones + 0 tenths + 9 hundredths", "1 ten + 8 ones + 0 tenths + 0 hundredths + 9 thousandths"], ans: "1 ten + 8 ones + 0 tenths + 0 hundredths + 9 thousandths" },
+      { id: 63, section: 'Mathematics', q: "50 + 9 + 3/10 + 5/1000 in decimal form is", options: ["509.35", "509.3005", "59.35", "59.305"], ans: "59.305" },
+      { id: 64, section: 'Mathematics', q: "A tanker of capacity 200 liter has 110.5 liter of oil. How much more oil can be poured into the tanker.", options: ["89.5 liter", "99.5 liter", "90.5 liter", "91.5 liter"], ans: "89.5 liter" },
+      { id: 65, section: 'Mathematics', q: "The Monthly bill of the electricity of a house is Rs. 237.75, then bill of electricity for 6 month is", options: ["Rs. 1500", "Rs. 1450.25", "Rs. 1426.50", "Rs. 1425.25"], ans: "Rs. 1426.50" },
+      { id: 66, section: 'Mathematics', q: "The answer of the numerical expression 48 - 12 ÷ 4 + 9 × 2", options: ["36", "72", "63", "27"], ans: "63" },
+      { id: 67, section: 'Mathematics', q: "The value of expression 48 ÷ 6 × 3 + 5 is", options: ["20", "24", "29", "22"], ans: "29" },
 
-      // SECTION 5: SCIENCE (39-52)
-      { id: 39, section: 'Science', q: "Which deficiency disease is caused by the lack of Vitamin C?", options: ["Beriberi", "Scurvy", "Rickets", "Night Blindness"], ans: "Scurvy" },
-      { id: 40, section: 'Science', q: "Which green pigment in plant leaves traps solar energy for photosynthesis?", options: ["Chlorophyll", "Carotene", "Xanthophyll", "Hemoglobin"], ans: "Chlorophyll" },
-      { id: 41, section: 'Science', q: "Which disease is primarily spread through contaminated water?", options: ["Malaria", "Tuberculosis", "Cholera", "Dengue"], ans: "Cholera" },
-      { id: 42, section: 'Science', q: "Which gas is the most abundant in Earth's atmosphere?", options: ["Oxygen", "Carbon dioxide", "Nitrogen", "Hydrogen"], ans: "Nitrogen" },
-      { id: 43, section: 'Science', q: "The boiling point of pure water at normal sea level is:", options: ["0°C", "50°C", "100°C", "212°C"], ans: "100°C" },
-      { id: 44, section: 'Science', q: "Which animal can breathe through its skin as well as lungs?", options: ["Fish", "Frog", "Snake", "Bird"], ans: "Frog" },
-      { id: 45, section: 'Science', q: "Deficiency of which mineral causes Goitre?", options: ["Iron", "Calcium", "Iodine", "Sodium"], ans: "Iodine" },
-      { id: 46, section: 'Science', q: "Which part of the human skeleton protects the brain?", options: ["Ribcage", "Backbone", "Skull", "Pelvis"], ans: "Skull" },
-      { id: 47, section: 'Science', q: "The process of turning water vapor into liquid water droplets is called:", options: ["Evaporation", "Condensation", "Precipitation", "Filtration"], ans: "Condensation" },
-      { id: 48, section: 'Science', q: "Which planet in our solar system is known as the \"Red Planet\"?", options: ["Venus", "Mars", "Jupiter", "Saturn"], ans: "Mars" },
-      { id: 49, section: 'Science', q: "Seeds of a dandelion plant are dispersed primarily by:", options: ["Water", "Wind", "Animals", "Explosion"], ans: "Wind" },
-      { id: 50, section: 'Science', q: "Which blood cells help our body fight against infections?", options: ["Red blood cells", "White blood cells", "Platelets", "Plasma"], ans: "White blood cells" },
-      { id: 51, section: 'Science', q: "The hardest substance in the human body is:", options: ["Femur bone", "Tooth enamel", "Skull", "Cartilage"], ans: "Tooth enamel" },
-      { id: 52, section: 'Science', q: "Sound cannot travel through which of the following?", options: ["Air", "Water", "Steel", "Vacuum"], ans: "Vacuum" },
+      // SECTION 5: ENGLISH (68-71)
+      { id: 68, section: 'English', q: "Ability to do things is called", options: ["Skill", "Happiness", "Knowledge", "Profession"], ans: "Skill" },
+      { id: 69, section: 'English', q: "Misery means", options: ["Poor person", "Create unhappiness", "Rich person", "Great happiness"], ans: "Create unhappiness" },
+      { id: 70, section: 'English', q: "Crawling means", options: ["Running fast", "Moving slowly", "Walking", "Moving like a baby"], ans: "Moving slowly" },
+      { id: 71, section: 'English', q: "The use of atomic power brought ........ many changes.", options: ["up", "into", "about", "in"], ans: "about" },
 
-      // SECTION 6: INDO-ISLAMIC CULTURE & GK (53-60)
-      { id: 53, section: 'Indo-Islamic Culture & GK', q: "Who founded the Muhammadan Anglo-Oriental (M.A.O.) College at Aligarh?", options: ["Maulana Abul Kalam Azad", "Sir Syed Ahmad Khan", "Allama Iqbal", "Nawab Viqar-ul-Mulk"], ans: "Sir Syed Ahmad Khan" },
-      { id: 54, section: 'Indo-Islamic Culture & GK', q: "In which year was M.A.O. College established?", options: ["1875", "1885", "1920", "1857"], ans: "1875" },
-      { id: 55, section: 'Indo-Islamic Culture & GK', q: "In which year was M.A.O. College converted into Aligarh Muslim University (AMU)?", options: ["1900", "1915", "1920", "1947"], ans: "1920" },
-      { id: 56, section: 'Indo-Islamic Culture & GK', q: "In which holy city is the Kaaba located?", options: ["Medina", "Mecca", "Jerusalem", "Cairo"], ans: "Mecca" },
-      { id: 57, section: 'Indo-Islamic Culture & GK', q: "In which cave did the first revelation (Wahi) descend upon Prophet Muhammad (PBUH)?", options: ["Cave of Hira", "Cave of Thawr", "Uhud", "Safa"], ans: "Cave of Hira" },
-      { id: 58, section: 'Indo-Islamic Culture & GK', q: "How many Surahs (chapters) are there in the Holy Quran?", options: ["110", "112", "114", "116"], ans: "114" },
-      { id: 59, section: 'Indo-Islamic Culture & GK', q: "Who was the first Caliph of Islam?", options: ["Hazrat Umar (R.A.)", "Hazrat Abu Bakr (R.A.)", "Hazrat Usman (R.A.)", "Hazrat Ali (R.A.)"], ans: "Hazrat Abu Bakr (R.A.)" },
-      { id: 60, section: 'Indo-Islamic Culture & GK', q: "Which Mughal ruler built the famous Jama Masjid of Delhi?", options: ["Akbar", "Jahangir", "Shah Jahan", "Aurangzeb"], ans: "Shah Jahan" },
-
-      // SECTION 7: MATHEMATICS (ADDITIONAL 61-66)
-      { id: 61, section: 'Mathematics', q: "If cost price (CP) is ₹450 and selling price (SP) is ₹540, find the profit percentage:", options: ["10%", "15%", "20%", "25%"], ans: "20%" },
-      { id: 62, section: 'Mathematics', q: "What is the value of 15 × (8 + 2) - 50?", options: ["100", "150", "75", "120"], ans: "100" },
-      { id: 63, section: 'Mathematics', q: "How many vertices does a cube have?", options: ["6", "8", "12", "16"], ans: "8" },
-      { id: 64, section: 'Mathematics', q: "The fraction equivalent to 0.05 is:", options: ["1/2", "1/5", "1/20", "1/50"], ans: "1/20" },
-      { id: 65, section: 'Mathematics', q: "Which of the following numbers is divisible by 9?", options: ["3452", "5643", "7821", "4325"], ans: "5643" },
-      { id: 66, section: 'Mathematics', q: "The perimeter of a triangle with sides 5 cm, 7 cm, and 9 cm is:", options: ["21 cm", "23 cm", "19 cm", "25 cm"], ans: "21 cm" },
-
-      // SECTION 8: SCIENCE (ADDITIONAL 67-72)
-      { id: 67, section: 'Science', q: "Which gas is released by green plants during the daytime process of photosynthesis?", options: ["Carbon dioxide", "Nitrogen", "Oxygen", "Hydrogen"], ans: "Oxygen" },
-      { id: 68, section: 'Science', q: "Which of the following is a good conductor of electricity?", options: ["Wood", "Rubber", "Copper", "Plastic"], ans: "Copper" },
-      { id: 69, section: 'Science', q: "Animals that sleep through the cold winter season are undergoing:", options: ["Migration", "Hibernation", "Adaptation", "Camouflage"], ans: "Hibernation" },
-      { id: 70, section: 'Science', q: "The human heart has how many chambers?", options: ["2", "3", "4", "6"], ans: "4" },
-      { id: 71, section: 'Science', q: "Which soil type has the highest water-holding capacity?", options: ["Sandy soil", "Clayey soil", "Loamy soil", "Gravel"], ans: "Clayey soil" },
-      { id: 72, section: 'Science', q: "Which vitamin helps in the rapid clotting of blood when injured?", options: ["Vitamin A", "Vitamin C", "Vitamin D", "Vitamin K"], ans: "Vitamin K" },
-
-      // SECTION 9: ENGLISH & GRAMMAR (ADDITIONAL 73-76)
-      { id: 73, section: 'English', q: "Choose the correctly spelt word:", options: ["Recieve", "Receive", "Receeve", "Riceive"], ans: "Receive" },
-      { id: 74, section: 'English', q: "Give the one-word substitution for: \"A place where birds are kept.\"", options: ["Aquarium", "Apiary", "Aviary", "Zoo"], ans: "Aviary" },
-      { id: 75, section: 'English', q: "Fill in the blank with the correct tense: \"The sun _____ in the east.\"", options: ["rise", "rises", "rising", "rose"], ans: "rises" },
-      { id: 76, section: 'English', q: "What is the superlative degree of the adjective \"Good\"?", options: ["Better", "Best", "Gooder", "Goodest"], ans: "Best" },
-
-      // SECTION 10: HINDI & URDU (ADDITIONAL 77-80)
-      { id: 77, section: 'Urdu', isRTL: true, q: "'جنگل' (Jangal) کا ہم معنی (مترادف) لفظ کیا ہوگا؟", options: ["صحرا", "بن / ون (Ban)", "گلشن", "باغ"], ans: "بن / ون (Ban)" },
-      { id: 78, section: 'Urdu', isRTL: true, q: "'طاقتور' کا متضاد لفظ بتائیے:", options: ["لاچار", "کمزور", "ناتواں", "بیمار"], ans: "کمزور" },
-      { id: 79, section: 'Hindi', q: "'जिसका कोई शत्रु न जन्मा हो' - अनेक शब्दों के लिए एक शब्द:", options: ["अजातशत्रु", "शत्रुघ्न", "सर्वजीत", "मित्र"], ans: "अजातशत्रु" },
-      { id: 80, section: 'Hindi', q: "'प्रत्येक' शब्द का सही संधि-विच्छेद क्या होगा?", options: ["प्रति + एक", "प्र + प्रत्येक", "प्रत्य + एक", "प्रत + एक"], ans: "प्रति + एक" },
-
-      // SECTION 11: INDO-ISLAMIC CULTURE & GK (ADDITIONAL 81-85)
-      { id: 81, section: 'Indo-Islamic Culture & GK', q: "Who was the mother of Prophet Muhammad (PBUH)?", options: ["Hazrat Khadijah (R.A.)", "Hazrat Aminah (R.A.)", "Hazrat Fatimah (R.A.)", "Hazrat Aisha (R.A.)"], ans: "Hazrat Aminah (R.A.)" },
-      { id: 82, section: 'Indo-Islamic Culture & GK', q: "What is the literal meaning of the Islamic pillar 'Zakat'?", options: ["Prayer", "Fasting", "Purification / Charity", "Pilgrimage"], ans: "Purification / Charity" },
-      { id: 83, section: 'Indo-Islamic Culture & GK', q: "Which book was authored by Sir Syed Ahmad Khan on the historical monuments of Delhi?", options: ["Asar-us-Sanadid", "Tahzib-ul-Akhlaq", "Tarikh-e-Firoz Shahi", "Ain-i-Akbari"], ans: "Asar-us-Sanadid" },
-      { id: 84, section: 'Indo-Islamic Culture & GK', q: "The famous battle of Badr took place in which Hijri year?", options: ["1 AH", "2 AH", "3 AH", "5 AH"], ans: "2 AH" },
-      { id: 85, section: 'Indo-Islamic Culture & GK', q: "In which direction do Muslims face while offering Salah in India?", options: ["East", "West (towards the Holy Kaaba)", "North", "South"], ans: "West (towards the Holy Kaaba)" }
+      // SECTION 6: HINDI (72-85)
+      { id: 72, section: 'Hindi', q: "'आदि' का विलोम है।", options: ["कृपा", "क्रय", "अन्त", "अनादि"], ans: "अन्त" },
+      { id: 73, section: 'Hindi', q: "'आयात' का विलोम है।", options: ["पर्याप्त", "निर्यात", "अमृत", "आयात"], ans: "निर्यात" },
+      { id: 74, section: 'Hindi', q: "यदि वाक्य पूरा हो जाए तो ........ लगते हैं।", options: ["अपूर्ण विराम", "पूर्ण विराम", "अल्प विराम", "अर्ध विराम"], ans: "पूर्ण विराम" },
+      { id: 75, section: 'Hindi', q: "'मैंने ठंडा पानी पिया' में विशेषण है।", options: ["ठंडा", "पानी", "मैंने", "पिया है"], ans: "ठंडा" },
+      { id: 76, section: 'Hindi', q: "क्रिया के जिस रूप से कार्य सम्पन्न होने का पता चलता है उसे ........ कहते हैं।", options: ["संज्ञा", "सर्वनाम", "विशेषण", "काल"], ans: "काल" },
+      { id: 77, section: 'Hindi', q: "'नेता' का स्त्रीलिंग है।", options: ["नीता", "नीती", "नेत्री", "नेत्रा"], ans: "नेत्री" },
+      { id: 78, section: 'Hindi', q: "वर्ण के कितने भेद होते हैं?", options: ["एक", "दो", "तीन", "चार"], ans: "दो" },
+      { id: 79, section: 'Hindi', q: "'माता' का विलोम है।", options: ["मातै", "पिता", "पति", "माती"], ans: "पिता" },
+      { id: 80, section: 'Hindi', q: "'बहादुर' को हिंदी में कहते हैं।", options: ["निडर", "वीर", "हिम्मतवाला", "उत्तेजित"], ans: "वीर" },
+      { id: 81, section: 'Hindi', q: "'परास्त' का अर्थ है।", options: ["जीत", "हार", "रात", "दिन"], ans: "हार" },
+      { id: 82, section: 'Hindi', q: "'नारी' का पर्यायवाची है।", options: ["नर", "औरत", "आदमी", "लड़की"], ans: "औरत" },
+      { id: 83, section: 'Hindi', q: "जो दिखायी ना दे।", options: ["अदृश्य", "असीन", "अनन्त", "अनादर"], ans: "अदृश्य" },
+      { id: 84, section: 'Hindi', q: "'आकाश' का विलोम है।", options: ["भूगोल", "धरा", "मनु", "तल"], ans: "धरा" },
+      { id: 85, section: 'Hindi', q: "संज्ञा के बदले बोले जाने वाले शब्द को कहते हैं।", options: ["विशेषण", "सर्वनाम", "कारक", "लिंग"], ans: "सर्वनाम" }
     ];
 
     const STORAGE_KEY = 'amu_class6_2025_submissions_v1';
@@ -324,6 +314,12 @@
       renderExamContent();
     }
 
+    function selectAnswerByIndex(idx) {
+      const q = shuffledQuestions[currentIdx];
+      if (!q || !q.shuffledOptions || idx < 0 || idx >= q.shuffledOptions.length) return;
+      selectAnswer(q.id, q.shuffledOptions[idx]);
+    }
+
     function clearAnswer(qId) {
       delete responses[qId];
       renderExamContent();
@@ -476,14 +472,14 @@
           <div class="p-6 sm:p-8 flex-1 flex flex-col justify-between">
             <div>
               <p class="text-lg sm:text-xl font-semibold text-slate-800 mb-6 select-none ${q.isRTL ? 'urdu-text text-2xl' : ''}">
-                ${q.q}
+                ${escapeHtml(q.q)}
               </p>
               <div class="space-y-3">
                 ${q.shuffledOptions.map((opt, idx) => {
                   const label = String.fromCharCode(65 + idx);
                   const isSelected = chosen === opt;
                   return `
-                    <button onclick="selectAnswer(${q.id}, '${opt.replace(/'/g, "\'")}')"
+                    <button onclick="selectAnswerByIndex(${idx})"
                       class="w-full text-left p-4 rounded-xl border-2 transition flex items-center justify-between ${
                         isSelected ? 'border-emerald-600 bg-emerald-50/80 text-emerald-950 font-semibold shadow-sm' : 'border-slate-200 hover:border-emerald-300 hover:bg-slate-50 text-slate-700'
                       }">
@@ -491,7 +487,7 @@
                         <span class="w-8 h-8 rounded-lg flex items-center justify-center text-sm font-bold shrink-0 ${
                           isSelected ? 'bg-emerald-600 text-white' : 'bg-slate-100 text-slate-600'
                         }">${label}</span>
-                        <span class="text-base ${q.isRTL ? 'urdu-text text-xl w-full' : ''}">${opt}</span>
+                        <span class="text-base ${q.isRTL ? 'urdu-text text-xl w-full' : ''}">${escapeHtml(opt)}</span>
                       </div>
                     </button>
                   `;
@@ -560,7 +556,7 @@
             <form onsubmit="startExam(event)" class="p-6 space-y-5">
               <div class="bg-amber-50 border border-amber-200 rounded-xl p-4 text-xs text-amber-900 space-y-1">
                 <p class="font-bold text-sm">📌 Test Rules:</p>
-                <p>• Kul <strong>${RAW_QUESTIONS.length} Questions</strong> hain (Urdu, Hindi, English, Mathematics, Science, Indo-Islamic Culture & GK).</p>
+                <p>• Kul <strong>${RAW_QUESTIONS.length} Questions</strong> hain (Mathematics, Science, English, Hindi).</p>
                 <p>• Sahi jawab ke <strong>+1 mark</strong> hain, koi negative marking nahi hai.</p>
                 <p>• Test submit karne ke baad <strong>student ko score nahi dikhega</strong>. Score sirf <strong>Admin Panel</strong> me dikhega.</p>
               </div>
